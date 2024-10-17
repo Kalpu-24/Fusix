@@ -36,9 +36,6 @@ jobs:
         - name: Build Web
           run: flutter build web
     
-        - name: Build Windows
-          run: flutter build windows
-    
         - name: Archive artifacts
           uses: actions/upload-artifact@v3
           with:
