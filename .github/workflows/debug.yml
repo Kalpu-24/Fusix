@@ -11,6 +11,12 @@ jobs:
         runs-on: ubuntu-latest
     
         steps:
+            # install java 17 and set as JAVA_Home
+        - name: Set up JDK 17
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'adopt'
+            java-version: '17'
         - uses: actions/checkout@v3
 
         - name: Test connection
