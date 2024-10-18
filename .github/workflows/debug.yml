@@ -3,7 +3,7 @@ name: Debug
 on:
   push:
     branches:
-      - debug  # Trigger on debug branch instead of main
+      - main  # Trigger on debug branch instead of main
 
 jobs:
   build-web-gh-pages:
