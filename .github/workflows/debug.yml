@@ -39,10 +39,10 @@ jobs:
           powershell.exe -Command "Compress-Archive -Path Debug\* -DestinationPath windows_debug_artifacts.zip"
 
       # Archive the zipped artifacts
-      - name: Archive Windows artifacts
+      - name: Upload Windows artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: windows-debug-artifacts
+          name: windows-debug.zip
           path: build\windows\x64\runner\windows_debug_artifacts.zip  # Upload the zipped file
 
   build-apk-web:
@@ -69,20 +69,45 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build APK
+      # Build normal APK
+      - name: Build normal APK (single APK)
         run: flutter build apk --debug
+
+      # Build APKs split by ABI
+      - name: Build APK (split by ABI)
+        run: flutter build apk --debug --split-per-abi
 
       - name: Build Web
         run: flutter build web
 
-      - name: Archive APK artifacts
+      # Upload normal APK directly (without archiving)
+      - name: Upload normal APK
         uses: actions/upload-artifact@v3
         with:
-          name: debug-apk-artifacts
-          path: build/app/outputs/flutter-apk/app-debug.apk  # Path to debug APK
+          name: app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk  # Path to the normal APK
+
+      # Upload split APKs for each ABI (without archiving)
+      - name: Upload armeabi-v7a APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-armeabi-v7a-debug.apk
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-debug.apk  # Path to the armeabi-v7a APK
+
+      - name: Upload arm64-v8a APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-arm64-v8a-debug.apk
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-debug.apk  # Path to the arm64-v8a APK
+
+      - name: Upload x86_64 APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-x86_64-debug.apk
+          path: build/app/outputs/flutter-apk/app-x86_64-debug.apk
 
       - name: Archive Web artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: debug-web-artifacts
+          name: debug-web.zip
           path: build/web/  # Path to built web artifacts
