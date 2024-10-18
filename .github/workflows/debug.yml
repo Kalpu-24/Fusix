@@ -6,65 +6,6 @@ on:
       - main  # Trigger on debug branch instead of main
 
 jobs:
-  build-web-gh-pages:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v3
-
-    - name: Test connection
-      run: curl "https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json"
-
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.24.3'
-    
-    - name: Install dependencies
-      run: flutter pub get
-
-    - name: Build Flutter Web App
-      run: flutter build web --release
-      
-    - name: Configure Git
-      run: |
-        git config --global user.email "github-actions@example.com"
-        git config --global user.name "GitHub Actions"
-    
-    - name: Deploy to GitHub Pages
-      env:
-        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      run: |
-        # Create a new branch called gh-pages if it doesn't exist
-        git fetch
-        if [ `git branch --list gh-pages` ]; then
-          git branch -D gh-pages
-        fi
-        git checkout --orphan gh-pages
-
-        # Remove all files in the new branch
-        git rm -rf .
-
-        # Copy the build output to the root of the branch
-        cp -r build/web/* .
-
-        # Create a .nojekyll file to disable Jekyll on GitHub Pages
-        touch .nojekyll
-
-        # Add changes to git
-        git add .
-
-        # Commit the changes
-        git commit -m "Deploy Flutter web app"
-
-        # Push to the gh-pages branch
-        git push --force https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/Kalpu-24/Fusix.git gh-pages
-
-    - name: Clean up
-      run: git checkout -B main
-
-
   build-win:
     runs-on: windows-latest
 
@@ -94,15 +35,15 @@ jobs:
 
       - name: Zip Windows Debug artifacts
         run: |
-          cd build/windows/x64/runner/Debug
-          powershell.exe -Command "Compress-Archive -Path Debug/* -DestinationPath windows_debug_artifacts.zip"
+          cd build\windows\x64\runner\Debug
+          powershell.exe -Command "Compress-Archive -Path Debug\* -DestinationPath windows_debug_artifacts.zip"
 
       # Archive the zipped artifacts
       - name: Archive Windows artifacts
         uses: actions/upload-artifact@v3
         with:
           name: windows-debug-artifacts
-          path: build/windows/x64/runner/Debug/windows_debug_artifacts.zip  # Upload the zipped file
+          path: build\windows\x64\runner\Debug\windows_debug_artifacts.zip  # Upload the zipped file
 
   build-apk-web:
     runs-on: ubuntu-latest
