@@ -35,7 +35,7 @@ jobs:
 
       - name: Zip Windows Debug artifacts
         run: |
-          cd build\windows\x64\runner\Debug
+          cd build\windows\x64\runner
           powershell.exe -Command "Compress-Archive -Path Debug\* -DestinationPath windows_debug_artifacts.zip"
 
       # Archive the zipped artifacts
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-debug-artifacts
-          path: build\windows\x64\runner\Debug\windows_debug_artifacts.zip  # Upload the zipped file
+          path: build\windows\x64\runner\windows_debug_artifacts.zip  # Upload the zipped file
 
   build-apk-web:
     runs-on: ubuntu-latest
