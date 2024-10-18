@@ -7,12 +7,16 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  another_flutter_splash_screen: ^1.2.1
   dice_icons: ^0.1.7
   dynamic_color: ^1.7.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.6
   flutter_launcher_icons: ^0.14.1
   flutter_screenutil: ^5.9.3
+  hydrated_bloc: ^9.1.5
+  path_provider: ^2.1.4
   provider: ^6.1.2
   shared_preferences: ^2.3.2
   sizer: ^3.0.0

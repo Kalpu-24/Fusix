@@ -2,17 +2,20 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fusix/components/fusix_nav_bar.dart';
-import 'package:fusix/components/fusix_nav_drawer.dart';
-import 'package:fusix/components/fusix_nav_rail.dart';
-import 'package:fusix/prefs/theme_mode_manager.dart';
-import 'package:provider/provider.dart';
+import 'package:fusix/common/widgets/fusix_nav_bar.dart';
+import 'package:fusix/common/widgets/fusix_nav_drawer.dart';
+import 'package:fusix/common/widgets/fusix_nav_rail.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ThemeModeManager(),
-    child: FusixApp(),
-  ));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getApplicationDocumentsDirectory(),
+  );
+  runApp(FusixApp());
 }
 
 class FusixApp extends StatelessWidget {
