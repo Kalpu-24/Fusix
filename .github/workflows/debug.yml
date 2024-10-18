@@ -15,11 +15,11 @@ jobs:
 
     - name: Test connection
       run: curl "https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json"
-      
+
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: 3.24.0
+        flutter-version: '3.24.3'
     
     - name: Install dependencies
       run: flutter pub get
@@ -92,11 +92,17 @@ jobs:
       - name: Build Windows
         run: flutter build windows --debug
 
+      - name: Zip Windows Debug artifacts
+        run: |
+          cd build/windows/runner
+          powershell.exe -Command "Compress-Archive -Path Debug/* -DestinationPath windows_debug_artifacts.zip"
+
+      # Archive the zipped artifacts
       - name: Archive Windows artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: debug-windows-artifacts
-          path: build/windows/runner/Debug/  # Path to built Windows artifacts
+          name: windows-debug-artifacts
+          path: build/windows/runner/windows_debug_artifacts.zip  # Upload the zipped file
 
   build-apk-web:
     runs-on: ubuntu-latest
@@ -126,7 +132,7 @@ jobs:
         run: flutter build apk --debug
 
       - name: Build Web
-        run: flutter build web --debug
+        run: flutter build web
 
       - name: Archive APK artifacts
         uses: actions/upload-artifact@v3
