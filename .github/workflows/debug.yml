@@ -59,7 +59,7 @@ jobs:
         git commit -m "Deploy Flutter web app"
 
         # Push to the gh-pages branch
-        git push --force origin gh-pages
+        git push --force https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/Kalpu-24/Fusix.git gh-pages
 
     - name: Clean up
       run: git checkout -B main
@@ -94,7 +94,7 @@ jobs:
 
       - name: Zip Windows Debug artifacts
         run: |
-          cd build/windows/runner
+          cd build/windows/x64/runner/Debug
           powershell.exe -Command "Compress-Archive -Path Debug/* -DestinationPath windows_debug_artifacts.zip"
 
       # Archive the zipped artifacts
@@ -102,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows-debug-artifacts
-          path: build/windows/runner/windows_debug_artifacts.zip  # Upload the zipped file
+          path: build/windows/x64/runner/Debug/windows_debug_artifacts.zip  # Upload the zipped file
 
   build-apk-web:
     runs-on: ubuntu-latest
