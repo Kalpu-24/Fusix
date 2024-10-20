@@ -2,8 +2,8 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fusix/presentation/bloc/theme_bloc.dart';
-import 'package:fusix/presentation/pages/splash_screen.dart';
+import 'package:fusix/bloc/theme_bloc.dart';
+import 'package:fusix/pages/splash_screen.dart';
 
 class FusixApp extends StatelessWidget {
   const FusixApp({super.key});
